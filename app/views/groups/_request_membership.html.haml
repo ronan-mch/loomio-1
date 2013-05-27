@@ -1,7 +1,7 @@
 - unless can? :add_members, group
 
   -if current_user.nil?
-    =link_to t(:request_membership), request_membership_path(group), class: 'btn request-membership-btn', id: 'request-membership'
+    =link_to t(:request_membership), new_group_membership_request_path(group), class: 'btn request-membership-btn', id: 'request-membership'
   -elsif not group.users_include?(current_user)
     #request-membership
       / existing system: signed in but not in group
