@@ -1,10 +1,9 @@
 %h1 #{@group.full_name} > #{t(:request_membership)}
 
-= simple_form_for @membership_request, url: group_membership_requests_path, validate: true do |f|
+= simple_form_for @membership_request, url: group_membership_requests_path(@group) do |f|
   = f.input :name
   = f.input :email
   = f.input :introduction
-  = hidden_field_tag :group, @group.id
   = f.submit t(:request_membership), class: "btn btn-info btn-large"
 
 Cancel
