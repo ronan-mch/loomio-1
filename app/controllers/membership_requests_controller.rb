@@ -14,12 +14,10 @@ class MembershipRequestsController < ApplicationController
     else
       flash[:failure]="nope"
     end
-    # group_id     = params[:membership_request][:group_id]
-    # name         = params[:membership_request][:name]
-    # email        = params[:membership_request][:email]
-    # introduction = params[:membership_request][:introduction]
-
-
     redirect_to @group
+  end
+
+  def show
+    @group = Group.find params[:group_id]
   end
 end
