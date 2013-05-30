@@ -18,7 +18,14 @@ Loomio::Application.routes.draw do
 
   resources :groups, except: [:index, :new] do
     resources :invitations, only: [:index, :destroy, :new, :create], controller: 'groups/invitations'
-    resources :membership_requests, only: [:new, :create, :show]
+    resources :membership_requests, only: [:new, :create] do
+      member do
+        post :approve
+        post :ignore
+      end
+    end
+    get :membership_requests, to: 'membership_requests#show', as: :view_membership_requests
+
     resources :memberships, only: [:index, :destroy, :new, :create], controller: 'groups/memberships' do
       member do
        post :make_admin

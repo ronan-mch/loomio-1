@@ -1,0 +1,19 @@
+%h1= @group.full_name
+%h3 Membership requests
+%br
+-if can? :add_members, @group
+  %table.table
+    %tr
+      %th #{t(:name)} & #{t(:email)}
+      %th Introduction
+      %th= t(:approve)
+      %th= t(:ignore_request)
+    -@group.membership_requests.each do |request|
+      %tr
+        %td
+          #{request.name}
+          %br
+          =mail_to request.email, request.email
+        %td= render_rich_text(request.introduction, false)
+        %td= link_to t(:approve), approve_group_membership_request_path(@group, request)
+        %td= link_to t(:ignore), ignore_group_membership_request_path(@group, request)

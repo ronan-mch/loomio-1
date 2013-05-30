@@ -30,8 +30,8 @@ class Group < ActiveRecord::Base
     :order => "LOWER(users.name)"
 
   has_many :membership_requests,
-    :conditions => {:access_level => 'request'},
-    :class_name => 'Membership',
+    # :conditions => {:access_level => 'request'},
+    # :class_name => 'Membership',
     :dependent => :destroy
 
   has_many :admin_memberships,
