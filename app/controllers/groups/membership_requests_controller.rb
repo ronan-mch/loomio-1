@@ -8,12 +8,31 @@ class Groups::MembershipRequestsController < ApplicationController
 
   def create
     @membership_request = MembershipRequest.new params[:membership_request]
-    @membership_request.group = @group
-    @membership_request.save
+    if @group.members.where('email = ?', @membership_request.email).present?
+      flash[:alert]   = "A user with that email address is already a member of this group."
+    else
+      if @group.membership_requests.where('email = ?', @membership_request.email).present?
+        flash[:alert] = "A membership request for that email already exists."
+      else
+        @membership_request.group = @group
+        @membership_request.user = current_user if user_signed_in?
+        @membership_request.save
+        flash[:success] = "Membership requested"
+      end
+    end
+    # unless @group.membership_requests.where('email = ?', @membership_request.email).present?
+    #   @membership_request.group = @group
+    #   @membership_request.user = current_user if user_signed_in?
+    #   @membership_request.save
+    #   flash[:success] = "Membership requested"
+    # else
+    #   flash[:alert] = "A membership request for that email already exists."
+    # end
+    redirect_to @group
   end
 
   def show
-    @group = Group.find params[:group_id]
+
   end
 
   def approve
@@ -41,5 +60,4 @@ class Groups::MembershipRequestsController < ApplicationController
       redirect_to root_path
     end
   end
-
 end

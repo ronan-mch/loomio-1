@@ -33,27 +33,63 @@ describe Groups::MembershipRequestsController do
     end
 
     context "valid group id" do
+      let(:group) {mock_model Group}
+      let(:membership_request_args) {{name: 'bob james', email: 'bob@james.com', introduction: 'about me, hi'}}
+      before do
+        Group.stub(:find_by_id).and_return group
+        group.stub_chain(:membership_requests, :where, :present?).and_return false
+        group.stub_chain(:members, :where, :present?).and_return false
+      end
+
       context "signed-out user" do
-        let(:group) {mock_model Group}
-        let(:membership_request) {{name: 'bob james', email: 'bob@james.com', introduction: 'about me, hi'}}
-        before do
-          Group.stub(:find_by_id).and_return group
-        end
         it "creates membership request with email and group" do
-          post :create, group_id: group.id, membership_request: membership_request
+          post :create, group_id: group.id, membership_request: membership_request_args
           assigns(:membership_request).should be_persisted
         end
-        it "redirects to group with flash success message"
+        it "redirects to group with flash success message" do
+          post :create, group_id: group.id, membership_request: membership_request_args
+          response.should redirect_to group_path(group)
+          flash[:success].should =~ /Membership requested/i
+        end
         context "membership request already exists for given email" do
-          it "redirects to group with flash message: we already have a request for that email"
+          it "redirects to group with flash message: we already have a request for that email" do
+            group.stub_chain(:membership_requests, :where).and_return mock_model(MembershipRequest, email: 'bob@james.com')
+            post :create, group_id: group.id, membership_request: membership_request_args
+            response.should redirect_to group_path(group)
+            flash[:alert].should =~ /membership request for that email already exists/i
+          end
         end
       end
+
       context "signed-in user" do
-        it "creates membership request with user and group" do
+        let(:user) {create(:user)}
+        before do
+          controller.stub(:current_user).and_return user
         end
-        it "redirects to group with flash success message"
+        it "creates membership request with user and group" do
+          post :create, group_id: group.id, membership_request: membership_request_args
+          assigns(:membership_request).user_id.should == user.id
+          assigns(:membership_request).should be_persisted
+        end
+        it "redirects to group with flash success message" do
+          post :create, group_id: group.id, membership_request: membership_request_args
+          response.should redirect_to group_path(group)
+          flash[:success].should =~ /Membership requested/i
+        end
+
         context "user is already a member" do
-          it "redirects to group with flash message: already a member"
+          before do
+            group.stub_chain(:members, :where, :present?).and_return true
+          end
+          it "does not create membership request" do
+            post :create, group_id: group.id, membership_request: membership_request_args
+            assigns(:membership_request).should_not be_persisted
+          end
+          it "redirects to group with flash message: already a member" do
+            post :create, group_id: group.id, membership_request: membership_request_args
+            response.should redirect_to group_path(group)
+            flash[:alert].should =~ /already a member/i
+          end
         end
       end
     end
