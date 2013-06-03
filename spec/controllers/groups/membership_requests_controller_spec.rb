@@ -95,4 +95,23 @@ describe Groups::MembershipRequestsController do
     end
   end
 
+  describe "index"
+
+  describe "approve" do
+    it 'redirects unless coordinator can approve membership request'
+    it 'redirects unless membership request exists'
+
+    it 'marks the request as approved'
+    context 'request from signed-out user' do
+      it 'creates invitation to user to join group'
+    end
+
+    context 'request from signed-in user' do
+      it 'adds the user to the group'
+      it 'notifies user that the request was accepted'
+    end
+
+  end
+
+  describe "ignore"
 end
