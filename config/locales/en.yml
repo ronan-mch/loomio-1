@@ -133,6 +133,16 @@ en:
   click_to_dismiss: "Click here to dismiss this message"
   generic_confirm: "Are you sure?"
 
+  discussion_helper_text:
+    header: "Welcome to your first discussion"
+    message: "<p>The topic is at the top of the page, with context underneath.</p><p>Discussion is on the left, decisions come up on the right. If you think the group is ready to make a decision, you can make a proposal for the group to consider.</p>"
+  group_helper_text:
+    header: "Welcome to your new group!"
+    message: "<p>This is the <strong>group page</strong>. On the left is a list of all the discussions in this group.</p><p>When you want the group to discuss another topic, start a new discussion.</p>"
+  dashboard_helper_text:
+    header: "Welcome to your Home page"
+    message: "<p>The home page shows you all of the current discussions in all the groups you are a member of.</p><p>You can start a discussion on a new topic by clicking the “Start a discussion” button.</p>"
+
   #
   # GROUP PAGE
   #
