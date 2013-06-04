@@ -1,6 +1,6 @@
 class BaseController < ApplicationController
   include AutodetectTimeZone
-  before_filter :authenticate_user!, :check_browser, :check_for_invitation,:load_announcements
+  before_filter :authenticate_user!, :check_browser, :check_for_invitation, :load_announcements
   before_filter :set_time_zone_from_javascript
   helper_method :time_zone
 

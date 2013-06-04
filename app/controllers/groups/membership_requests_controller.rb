@@ -1,7 +1,6 @@
-class Groups::MembershipRequestsController < ApplicationController
-  inherit_resources
-  before_filter :load_group_or_redirect_to_root
-  before_filter :require_current_user_is_group_admin, except: [:new, :create]
+class Groups::MembershipRequestsController < BaseController
+  before_filter :load_group
+  before_filter :authenticate_user!, except: [:new, :create]
 
   def new
     @membership_request = MembershipRequest.new group: @group
@@ -23,30 +22,16 @@ class Groups::MembershipRequestsController < ApplicationController
     redirect_to @group
   end
 
-  def index
-  end
-
-  def approve
-    
-  end
-
-  def ignore
-  end
-
 
   private
+
+  def load_group
+    @group ||= Group.find(params[:group_id])
+  end
 
   def save_membership_request
     @membership_request.group = @group
     @membership_request.user = current_user if user_signed_in?
     @membership_request.save
-  end
-
-  def load_group_or_redirect_to_root
-    @group = Group.find_by_id(params[:group_id])
-    unless @group.present?
-      flash[:alert] = "Invalid group." #needs_translation
-      redirect_to root_path
-    end
   end
 end
