@@ -21,6 +21,7 @@ Feature: Individual requests group membership
     And fill in and submit the Request membership form (introduction only)
     Then I should see a flash message confirming my membership request
 
+
   # @javascript
   Scenario: Group coordinator approves membership request from signed-out user
     Given there is a membership request from a signed-out user

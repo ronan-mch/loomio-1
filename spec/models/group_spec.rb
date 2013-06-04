@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Group do
   let(:motion) { create(:motion) }
+  let(:user) { create(:user) }
+  let(:group) { create(:group) }
 
   it { should have_many :discussions }
 
@@ -218,7 +220,7 @@ describe Group do
     end
   end
 
-  describe "activity_since_last_viewed?(user)" do
+  describe "#activity_since_last_viewed?(user)" do
     before do
       @group = create(:group)
       @user = create(:user)
@@ -247,6 +249,26 @@ describe Group do
     it "returns false there is no membership" do
       @group.stub(:membership).with(@user)
       @group.activity_since_last_viewed?(@user).should == false
+    end
+  end
+
+  describe "#has_member_with_email?(email)" do
+    it "returns true if the group has a member with the given email address" do
+      group.add_member!(user)
+      group.has_member_with_email?(user.email).should == true
+    end
+    it "returns false if the group doesn't have a member with the given email address" do
+      group.has_member_with_email?(user.email).should == false
+    end
+  end
+
+  describe "#has_membership_request_with_email?(email)" do
+    it "returns true if the group has a membership request with the given email address" do
+      create(:membership_request, email: user.email, group: group)
+      group.has_membership_request_with_email?(user.email).should == true
+    end
+    it "returns false if the group doesn't have a membership request with the given email address" do
+      group.has_membership_request_with_email?(user.email).should == false
     end
   end
 end

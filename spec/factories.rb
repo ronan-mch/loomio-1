@@ -141,9 +141,9 @@ FactoryGirl.define do
   end
 
   factory :membership_request do
-    name Faker::Name.name
-    email Faker::Internet.email
-    introduction Faker::Lorem.sentence(4)
+    name { Faker::Name.name }
+    email { Faker::Internet.email }
+    introduction { Faker::Lorem.sentence(4) }
     group
   end
 end

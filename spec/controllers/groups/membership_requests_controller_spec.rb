@@ -37,8 +37,8 @@ describe Groups::MembershipRequestsController do
       let(:membership_request_args) {{name: 'bob james', email: 'bob@james.com', introduction: 'about me, hi'}}
       before do
         Group.stub(:find_by_id).and_return group
-        group.stub_chain(:membership_requests, :where, :present?).and_return false
-        group.stub_chain(:members, :where, :present?).and_return false
+        group.stub(:has_member_with_email?).and_return false
+        group.stub(:has_membership_request_with_email?).and_return false
       end
 
       context "signed-out user" do
@@ -53,10 +53,10 @@ describe Groups::MembershipRequestsController do
         end
         context "membership request already exists for given email" do
           it "redirects to group with flash message: we already have a request for that email" do
-            group.stub_chain(:membership_requests, :where).and_return mock_model(MembershipRequest, email: 'bob@james.com')
+            group.stub(:has_membership_request_with_email?).and_return true
             post :create, group_id: group.id, membership_request: membership_request_args
             response.should redirect_to group_path(group)
-            flash[:alert].should =~ /membership request for that email already exists/i
+            flash[:alert].should =~ /already requested to join this group/i
           end
         end
       end
@@ -79,7 +79,7 @@ describe Groups::MembershipRequestsController do
 
         context "user is already a member" do
           before do
-            group.stub_chain(:members, :where, :present?).and_return true
+            group.stub(:has_member_with_email?).and_return true
           end
           it "does not create membership request" do
             post :create, group_id: group.id, membership_request: membership_request_args
@@ -88,7 +88,7 @@ describe Groups::MembershipRequestsController do
           it "redirects to group with flash message: already a member" do
             post :create, group_id: group.id, membership_request: membership_request_args
             response.should redirect_to group_path(group)
-            flash[:alert].should =~ /already a member/i
+            flash[:alert].should =~ /appear to already be a member/i
           end
         end
       end
@@ -97,9 +97,27 @@ describe Groups::MembershipRequestsController do
 
   describe "index"
 
-  describe "approve" do
-    it 'redirects unless coordinator can approve membership request'
-    it 'redirects unless membership request exists'
+  describe "approve", :focus do
+    let(:group) { mock_model Group }
+    let(:membership_request) { mock_model MembershipRequest }
+    let(:coordinator) { create(:user) }
+
+    before do
+      controller.stub(:current_user).and_return coordinator
+    end
+
+    context "user doesn't have permission to approve membership request" do
+      it 'redirects to group with flash alert' do
+        post :approve, group_id: group.id, membership_request_id: membership_request.id
+        response.should redirect_to group_path(group)
+        flash[:alert].should =~ /Access denied/i
+      end
+      it 'does not add the user to the group' do
+        group.should_not_receive(:add_member!)
+        post :approve, group_id: group.id, membership_request_id: membership_request.id
+      end
+    end
+    it 'redirects if membership request does not exist'
 
     it 'marks the request as approved'
     context 'request from signed-out user' do
@@ -110,7 +128,6 @@ describe Groups::MembershipRequestsController do
       it 'adds the user to the group'
       it 'notifies user that the request was accepted'
     end
-
   end
 
   describe "ignore"

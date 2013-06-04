@@ -233,7 +233,15 @@ class Group < ActiveRecord::Base
   end
 
   def invitations_remaining
-    max_size - memberships_count 
+    max_size - memberships_count
+  end
+
+  def has_member_with_email?(email)
+    users.where('email = ?', email).present?
+  end
+
+  def has_membership_request_with_email?(email)
+    membership_requests.where('email = ?', email).present?
   end
 
 
