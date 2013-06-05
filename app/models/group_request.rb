@@ -20,6 +20,7 @@ class GroupRequest < ActiveRecord::Base
   scope :approved, where(:status => :approved)
   scope :accepted, where(:status => :accepted)
 
+  before_destroy :prevent_destroy_if_group_present
   before_create :mark_spam
   before_validation :generate_token, on: :create
 
@@ -66,12 +67,14 @@ class GroupRequest < ActiveRecord::Base
   def approve!(args)
     self.approved_by = args[:approved_by]
     update_attribute(:approved_at, DateTime.now)
-    approve_request!
+    approve_request
+    save!
   end
 
   def accept!(user)
     group.add_admin!(user)
-    accept_request!
+    accept_request
+    save!
   end
 
   def self.check_defered
@@ -83,6 +86,12 @@ class GroupRequest < ActiveRecord::Base
 
 
   private
+  def prevent_destroy_if_group_present
+    if self.group.present?
+      errors.add(:group, "dont' delete group requests ok!")
+    end
+    errors.blank?
+  end
 
   def mark_spam
     mark_as_spam unless robot_trap.blank?

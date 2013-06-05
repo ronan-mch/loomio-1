@@ -8,6 +8,26 @@ describe GroupRequest do
     @group_request = build(:group_request)
   end
 
+  describe 'destroy' do
+    before do
+      @group_request = FactoryGirl.create(:group_request)
+    end
+
+    it 'returns normaly (ie: itself)' do
+      @group_request.destroy.should == @group_request
+    end
+
+    context 'if group present?' do
+      before do
+        @group_request.group = FactoryGirl.create(:group)
+      end
+
+      it 'returns false if group associated' do
+        @group_request.destroy.should be_false
+      end
+    end
+  end
+
   describe "#status" do
     it "should default to unverified" do
       @group_request.save!
@@ -113,8 +133,8 @@ describe GroupRequest do
     end
 
     it "can later be approved" do
-      @group_request.should_receive(:approve_request!)
       @group_request.approve!(approved_by: user)
+      @group_request.should be_approved
     end
 
     it "can set the status to marked_as_smanually_approved" do
@@ -136,8 +156,8 @@ describe GroupRequest do
     end
 
     it "can later be approved" do
-      @group_request.should_receive(:approve_request!)
       @group_request.approve!(approved_by: user)
+      @group_request.should be_approved
     end
 
     it "can later be marked as manually_approved" do
@@ -202,8 +222,8 @@ describe GroupRequest do
     end
 
     it "can later be approved" do
-      @group_request.should_receive(:approve_request!)
       @group_request.approve!(approved_by: user)
+      @group_request.should be_approved
     end
 
     it "can set the status to marked_as_smanually_approved" do
@@ -225,8 +245,8 @@ describe GroupRequest do
     end
 
     it "can later be approved" do
-      @group_request.should_receive(:approve_request!)
       @group_request.approve!(approved_by: user)
+      @group_request.should be_approved
     end
 
     it "can later be changed to verified" do
