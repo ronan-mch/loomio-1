@@ -5,7 +5,7 @@
   - else
     - discussion.filtered_activity.each do |event|
       - if event.kind == 'new_comment'
-        %li.activity-item-container= render event.eventable
+        %li.activity-item-container= render 'comments/comment', comment: event.eventable
       - else
         - discussion_item = DiscussionItem.new(event)
         %li.activity-item-container= render 'discussion_item', :item => discussion_item

@@ -40,6 +40,7 @@ gem 'foreman', '~> 0.60.2'
 gem 'rinku', '~> 1.7.2'
 gem 'piwik_analytics', '~> 1.0.1'
 gem 'friendly_id', '~> 4.0.9'
+gem 'cache_digests'
 
 # NOTE: sass-rails should be inside :assets group, but currently there is an issue with activeadmin
 #       which does not allow us to do this
@@ -48,7 +49,6 @@ gem 'friendly_id', '~> 4.0.9'
 gem 'sass-rails',   '~> 3.2.6'
 gem 'coffee-rails', '~> 3.2.2'
 gem 'fog'
-gem 'rack-mini-profiler', '~> 0.1.23'
 gem 'roadie', '~> 2.3.4'
 
 # Gems used only for assets and not required
@@ -82,7 +82,6 @@ group :development do
   gem 'rb-fchange', '~> 0.0.5', :require => false
   gem 'launchy', '~> 2.0.5'
   gem 'spork-rails', '~> 3.2.1'
-  gem 'awesome_print', '~> 1.0.2'
 end
 
 group :test do
@@ -91,6 +90,8 @@ group :test do
   gem 'poltergeist', '~> 1.3.0'
   gem 'webmock', '~> 1.9.0'
   gem 'vcr', '~> 2.4.0'
+  gem 'ruby-prof'
+  gem 'test-unit'
 end
 
 group :staging, :production do
