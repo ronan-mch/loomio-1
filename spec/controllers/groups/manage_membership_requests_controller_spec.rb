@@ -57,7 +57,6 @@ describe Groups::ManageMembershipRequestsController do
           response.should redirect_to group_path(group)
           flash[:alert].should == "#{membership_request.name}'s membership request has been approved. They will be added to the group once they set up a Loomio account."
         end
-        it 'notifies user that the request was accepted'
       end
 
       context "membership request has already been approved" do
