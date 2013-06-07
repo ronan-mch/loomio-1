@@ -1,8 +1,12 @@
 %h1 #{@group.full_name} > #{t(:request_membership)}
 
 = simple_form_for @membership_request, url: group_membership_requests_path(@group) do |f|
-  = f.input :name
-  = f.input :email
+  - if current_user
+    = f.input :name, placeholder: @membership_request.name, disabled: true
+    = f.input :email, placeholder: @membership_request.email, disabled: true
+  - else
+    = f.input :name
+    = f.input :email
   = f.input :introduction
   = f.submit t(:request_membership), class: "btn btn-info btn-large"
 

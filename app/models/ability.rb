@@ -17,9 +17,9 @@ class Ability
     can [:update, :email_members, :edit_privacy], Group, :id => user.adminable_group_ids
     can :edit_description, Group, :id => user.group_ids
     can [:add_subgroup, :get_members], Group, :id => user.group_ids
-    can :add_members, Group, :members_invitable_by => :members,
+    can [:add_members, :manage_membership_requests], Group, :members_invitable_by => :members,
                              :id => user.group_ids
-    can :add_members, Group, :members_invitable_by => :admins,
+    can [:add_members, :manage_membership_requests], Group, :members_invitable_by => :admins,
                              :id => user.adminable_group_ids
     can :archive, Group, :id => user.adminable_group_ids
     can [:create, :request_membership], Group

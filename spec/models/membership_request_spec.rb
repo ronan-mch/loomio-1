@@ -3,13 +3,12 @@ require 'spec_helper'
 describe MembershipRequest do
   let(:group) { stub_model Group }
   let(:membership_request) do
-    m = MembershipRequest.new(name: 'Bob Dogood', email: 'this@that.org.nz')
+    m = MembershipRequest.new(name: 'Bob Dogood', email: 'this@that.org.nz', introduction: 'we talked yesterday, can you approve this please?')
     m.group = group
     m
   end
 
   describe '#new' do
-
     subject { membership_request }
 
     it { should respond_to(:name) }
@@ -51,18 +50,9 @@ describe MembershipRequest do
     end
   end
 
-  describe '#approve!' do
-    it "changes the :status attribute to approved"
-    it "records who responded"
-    it "records the response"
-
-    context "membership request from signed-out user" do
-      it "creates an invitation to join the group"
-      it "delivers an invitation"
-    end
-
-    context "membership request from signed-in user" do
-      it "creates a membership for the user in the group"
-    end
+  describe '#approved_by!(current_user)', :focus do
+    it "sets responder"
+    it "sets response to approved"
+    it "sets response_at"
   end
 end

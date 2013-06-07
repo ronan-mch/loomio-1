@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Groups::ManageMembershipRequestsController do
   describe "#index"
 
-  describe "#approve", :focus do
+  describe "#approve" do
     let(:group) { mock_model Group }
     let(:membership_request) { mock_model MembershipRequest, group: group }
     let(:coordinator) { mock_model User }
@@ -16,11 +16,11 @@ describe Groups::ManageMembershipRequestsController do
       controller.stub(:current_user).and_return coordinator
       MembershipRequest.stub(:find).and_return(membership_request)
       Group.stub(:find).with(group.id.to_s).and_return(group)
-      membership_request.stub(:approve!)
+      ManageMembershipRequests.stub(:approve!)
     end
 
     context "user doesn't have permission to approve membership request" do
-      before { controller.stub(:can?).with(:add_members, group).and_return(false) }
+      before { controller.stub(:can?).with(:manage_membership_requests, group).and_return(false) }
       it 'redirects to group with flash error' do
         post :approve, id: membership_request.id
         response.should redirect_to group_path(group)
@@ -33,10 +33,10 @@ describe Groups::ManageMembershipRequestsController do
     end
 
     context "user has permission to approve membership request" do
-      before { controller.stub(:can?).with(:add_members, group).and_return(true) }
+      before { controller.stub(:can?).with(:manage_membership_requests, group).and_return(true) }
       context 'request from signed-out user' do
         it 'marks the request as approved' do
-          membership_request.should_receive(:approve!)
+          ManageMembershipRequests.should_receive(:approve!)
           post :approve, id: membership_request.id
         end
         it 'redirects to group with flash message' do
@@ -49,7 +49,7 @@ describe Groups::ManageMembershipRequestsController do
       context 'request from signed-in user' do
         before { membership_request.stub(:user).and_return(user) }
         it 'marks the request as approved' do
-          membership_request.should_receive(:approve!)
+          ManageMembershipRequests.should_receive(:approve!)
           post :approve, id: membership_request.id
         end
         it 'redirects to group with flash message' do
