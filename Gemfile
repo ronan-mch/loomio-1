@@ -55,7 +55,6 @@ gem 'valid_email'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'asset_sync', '~> 0.5.4'
   gem 'bootstrap-sass', '~> 2.3.1.0'
   gem 'uglifier', '~> 1.1.0'
   gem 'modernizr-rails', '~> 2.6.2'
