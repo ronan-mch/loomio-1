@@ -1,10 +1,12 @@
 class Groups::ManageMembershipRequestsController < BaseController
 
   def index
+    @group = Group.find(params[:group_id])
+    render 'groups/membership_requests/index'
   end
 
   def approve
-    @membership_request = MembershipRequest.find(params[:id])
+    @membership_request = MembershipRequest.find(params[:manage_membership_request_id])
     @group = @membership_request.group
     if can? :manage_membership_requests, @group
       ManageMembershipRequests.approve!(@membership_request, approved_by: current_user)

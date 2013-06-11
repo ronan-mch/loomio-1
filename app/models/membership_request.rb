@@ -12,8 +12,8 @@ class MembershipRequest < ActiveRecord::Base
   validates :group, presence: true
 
   belongs_to :group
-  belongs_to :user
-  # belongs_to :responder
+  belongs_to :requestor, class_name: 'User'
+  belongs_to :responder, class_name: 'User'
 
   delegate :members,             to: :group, prefix: true
   delegate :membership_requests, to: :group, prefix: true
@@ -34,12 +34,10 @@ class MembershipRequest < ActiveRecord::Base
     end
   end
 
-  def approve!
-
-  end
-
-  def requestor
-    user
+  def approved_by!(responder)
+    self.response = 'approved'
+    self.responder = responder
+    self.responded_at = Time.now
   end
 
   private

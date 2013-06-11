@@ -4,7 +4,7 @@ class Groups::MembershipRequestsController < BaseController
 
   def new
     @membership_request = MembershipRequest.new(group: @group)
-    @membership_request.user = current_user
+    @membership_request.requestor = current_user
     render 'new'
   end
 
@@ -27,6 +27,6 @@ class Groups::MembershipRequestsController < BaseController
   def build_membership_request
     @membership_request = MembershipRequest.new params[:membership_request]
     @membership_request.group = @group
-    @membership_request.user = current_user if user_signed_in?
+    @membership_request.requestor = current_user if user_signed_in?
   end
 end

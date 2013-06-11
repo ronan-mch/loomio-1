@@ -1,11 +1,12 @@
 class ManageMembershipRequests
 
   def self.approve!(membership_request, options={})
-    membership_request.approved_by = options[:approved_by]
+    responder = options[:approved_by]
+    # membership_request.approved_by!(responder)
     if membership_request.requestor.blank?
       invitation = CreateInvitation.after_membership_request_approval(
                         recipient_email: membership_request.email,
-                        inviter: options[:approved_by],
+                        inviter: responder,
                         group: membership_request.group)
       InvitePeopleMailer.after_membership_request_approval(invitation).delay.deliver
     else

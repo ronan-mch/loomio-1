@@ -7,6 +7,7 @@ describe MembershipRequest do
     m.group = group
     m
   end
+  let(:responder) { stub_model User }
 
   describe '#new' do
     subject { membership_request }
@@ -50,9 +51,18 @@ describe MembershipRequest do
     end
   end
 
-  describe '#approved_by!(current_user)', :focus do
-    it "sets responder"
-    it "sets response to approved"
-    it "sets response_at"
+  describe '#approved_by!(responder)' do
+    before do
+      membership_request.approved_by!(responder)
+    end
+    it "sets response to approved" do
+      membership_request.response.should == 'approved'
+    end
+    it "sets responder" do
+      membership_request.responder.should == responder
+    end
+    it "sets response_at" do
+      membership_request.responded_at.should_not be_blank
+    end
   end
 end

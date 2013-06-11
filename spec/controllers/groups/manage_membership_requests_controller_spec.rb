@@ -7,7 +7,7 @@ describe Groups::ManageMembershipRequestsController do
     let(:group) { mock_model Group }
     let(:membership_request) { mock_model MembershipRequest, group: group }
     let(:coordinator) { mock_model User }
-    let(:user) { mock_model User }
+    let(:requestor) { mock_model User }
 
     before do
       controller.stub(:set_locale)
@@ -47,7 +47,7 @@ describe Groups::ManageMembershipRequestsController do
       end
 
       context 'request from signed-in user' do
-        before { membership_request.stub(:user).and_return(user) }
+        before { membership_request.stub(:requestor).and_return(requestor) }
         it 'marks the request as approved' do
           ManageMembershipRequests.should_receive(:approve!)
           post :approve, id: membership_request.id
