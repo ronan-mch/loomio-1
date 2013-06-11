@@ -4,6 +4,7 @@ class Group < ActiveRecord::Base
 
   attr_accessible :name, :viewable_by, :parent_id, :parent, :cannot_contribute
   attr_accessible :members_invitable_by, :email_new_motion, :description, :setup_completed_at
+  attr_accessible :next_steps_completed
 
   validates_presence_of :name
   validates_inclusion_of :viewable_by, in: PERMISSION_CATEGORIES
@@ -233,7 +234,7 @@ class Group < ActiveRecord::Base
   end
 
   def invitations_remaining
-    max_size - memberships_count
+    max_size - memberships_count - pending_invitations.count
   end
 
   def has_member_with_email?(email)
@@ -244,6 +245,9 @@ class Group < ActiveRecord::Base
     membership_requests.where('email = ?', email).present?
   end
 
+  def is_setup?
+    self.setup_completed_at.present?
+  end
 
   private
 
