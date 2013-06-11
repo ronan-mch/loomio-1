@@ -9,7 +9,7 @@ describe Events::UserAddedToGroup do
 
     it 'creates an event' do
       Event.should_receive(:create!).with(kind: 'user_added_to_group',
-                                          eventable: membership)
+                                          eventable: membership_request)
       Events::UserAddedToGroup.publish!(membership)
     end
 

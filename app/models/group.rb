@@ -183,12 +183,12 @@ class Group < ActiveRecord::Base
     memberships.where("group_id = ? AND user_id = ?", id, user.id).first
   end
 
-  def add_request!(user)
-    if user_can_join?(user) && !user_membership_or_request_exists?(user)
-      membership = user.memberships.create!(:group_id => id)
-      membership
-    end
-  end
+  # def add_request!(user)
+  #   if user_can_join?(user) && !user_membership_or_request_exists?(user)
+  #     membership = user.memberships.create!(:group_id => id)
+  #     membership
+  #   end
+  # end
 
   def add_member!(user, inviter=nil)
     membership = find_or_build_membership_for_user(user)

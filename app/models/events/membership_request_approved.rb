@@ -9,7 +9,7 @@ class Events::MembershipRequestApproved < Event
   #   eventable
   # end
 
-  # private
+  private
 
   # def notify_users!
   #   notify!(membership.user)

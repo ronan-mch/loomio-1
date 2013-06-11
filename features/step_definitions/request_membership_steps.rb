@@ -15,7 +15,7 @@ Then(/^I should see a flash message confirming my membership request$/) do
 end
 
 Then(/^I should see a flash message confirming the membership request was approved$/) do
-  find('.alert-success').should have_content('Request approved')
+  find('.alert-success').should have_content('membership request has been approved')
 end
 
 Given(/^there is a membership request from a signed\-out user$/) do
@@ -25,7 +25,7 @@ end
 
 Given(/^there is a membership request from a signed\-in user$/) do
   step 'there is a membership request from a signed-out user'
-  @membership_request.user = FactoryGirl.create :user
+  @membership_request.requestor = FactoryGirl.create :user
   @membership_request.save
 end
 
@@ -40,3 +40,8 @@ When(/^I approve the membership request$/) do
   # click_on "confirm-action"
 end
 
+Then(/^the requester should be sent an invitation to join the group$/) do
+  last_email = ActionMailer::Base.deliveries.last
+  last_email.to.should include @membership_request.email
+  last_email.subject.should include 'has invited you to join'
+end

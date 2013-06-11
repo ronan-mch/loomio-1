@@ -51,18 +51,18 @@ class Groups::MembershipsController < GroupBaseController
   # membership request actions
   # ¡crying! out for their own controller and model
   #
-  def approve_request
-    @membership = Membership.find(params[:id])
-    if @membership.request?
-      authorize! :approve_request, @membership
-      @membership.approve!
-      flash[:notice] = t("notice.membership_approved")
-      UserMailer.group_membership_approved(@membership.user, @membership.group).deliver
-    else
-      flash[:warning] = t("warning.user_already_member")
-    end
-    redirect_to @membership.group
-  end
+  # def approve_request
+  #   @membership = Membership.find(params[:id])
+  #   if @membership.request?
+  #     authorize! :approve_request, @membership
+  #     @membership.approve!
+  #     flash[:notice] = t("notice.membership_approved")
+  #     UserMailer.group_membership_approved(@membership.user, @membership.group).deliver
+  #   else
+  #     flash[:warning] = t("warning.user_already_member")
+  #   end
+  #   redirect_to @membership.group
+  # end
 
   def ignore_request
     if @membership = Membership.find_by_id(params[:id])

@@ -3,11 +3,11 @@ require 'spec_helper'
 describe Events::MembershipRequested do
   let(:user) {mock_model(User)}
   let(:admin) {mock_model(User, email: 'hello@kitty.com')}
-  let(:group) {mock_model(Group, 
-                          admins: [admin], 
+  let(:group) {mock_model(Group,
+                          admins: [admin],
                           full_name: 'bingo for alcoholics',
                           admin_email: 'stupid@method.com')}
-  let(:membership) { mock_model(Membership, 
+  let(:membership) { mock_model(Membership,
                                 user: user,
                                 group: group) }
 
