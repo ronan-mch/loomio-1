@@ -18,6 +18,7 @@ en:
     cant_modify_position: "This proposal has closed."
     cant_state_position: "This proposal has closed."
     cant_view_member_profile: "You're unable to view the member's profile because you are not in the same group."
+    contribution: "Please sign in to make a contribution."
     discussion_not_created: "Discussion could not be created."
     group_not_archived: "Group could not be archived."
     invalid_close_date: "Invalid close date, please check this date has not passed."
@@ -336,6 +337,18 @@ en:
     see_how_everyone_feels_description: "When you’ve made your decision, you’ll be prompted to give a brief summary statement explaining why you feel that way. Underneath the pie, you can see how other people in the group have decided. These short statements make it really easy to catch up with where the discussion is up to."
 
   #
+  # CONTRIBUTIONS
+  #
+
+  contribution:
+    any_amount: "Any one-time contribution"
+    monthly_html: "Monthly contribution <span>(USD)</span>"
+    one_time_html: "One-time contribution <span>(USD)</span>"
+    thought_about_contributing: "Thought about contributing to Loomio?"
+    thought_about_contributing_description_html: "<p>We believe money shouldn’t be a barrier to groups doing great things in their communities. So, we’re developing an ethical revenue model to resource Loomio’s software development.</p><p>It works like this:</p><p><span>Groups with a budget</span> pay a monthly group subscription to use Loomio.</p><p><span>Groups without a budget</span> don’t pay a set subscription. Instead, group members may make a voluntary contribution within their means.</p><p>Since your group is one of our lovely community groups with no budget, we’re inviting you to contribute to Loomio yourself.</p>"
+    thanks: "Thanks for pitching in!"
+
+  #
   # SIGN IN
   #
 
@@ -547,6 +560,7 @@ en:
   password: "Password"
   prev: "Prev"
   options: "Options"
+  other: "Other"
   ok_got_it: "Okay, got it!"
   save: "Save"
   saving: "Saving"

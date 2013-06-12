@@ -36,3 +36,10 @@ $ ->
     placement: "right",
     container: "body",
     title: "Text formatting settings and info."
+
+#adds bootstrap tooltip to contribute icon
+$ ->
+  $("#contribute").tooltip
+    placement: "bottom",
+    title: 'Keen to pitch in?'
+    trigger: "hover"
