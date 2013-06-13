@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130610051804) do
+ActiveRecord::Schema.define(:version => 20130611033610) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -362,7 +362,7 @@ ActiveRecord::Schema.define(:version => 20130610051804) do
     t.boolean  "is_admin",                                                   :default => false
     t.string   "avatar_initials"
     t.string   "username"
-    t.boolean  "subscribed_to_daily_activity_email",                         :default => true,       :null => false
+    t.boolean  "subscribed_to_daily_activity_email",                         :default => false,      :null => false
     t.boolean  "subscribed_to_mention_notifications",                        :default => true,       :null => false
     t.boolean  "subscribed_to_proposal_closure_notifications",               :default => true,       :null => false
     t.string   "authentication_token"
