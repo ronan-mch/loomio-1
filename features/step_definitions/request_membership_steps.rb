@@ -45,3 +45,7 @@ Then(/^the requester should be sent an invitation to join the group$/) do
   last_email.to.should include @membership_request.email
   last_email.subject.should include 'has invited you to join'
 end
+
+Then(/^the requester should be added to the group$/) do
+  @group.members.include?(@membership_request.requestor)
+end

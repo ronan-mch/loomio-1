@@ -46,6 +46,11 @@ class Ability
     end
 
     #
+    # MEMBERSHIP REQUESTS
+    # #
+    # can :manage_membership_requests, MembershipRequest, 
+    # can :manage_membership_requests, MembershipRequest, 
+    #
     # DISCUSSIONS / COMMENTS
     #
 

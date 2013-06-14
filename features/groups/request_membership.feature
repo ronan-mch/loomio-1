@@ -30,7 +30,7 @@ Feature: Individual requests group membership
     Then I should see a flash message confirming the membership request was approved
     And the requester should be sent an invitation to join the group
 
-  Scenario: Group coordinator approves membership request from signed-out user
+  Scenario: Group coordinator approves membership request from signed-in user
     Given there is a membership request from a signed-in user
     And I am a logged in coordinator of the group
     When I approve the membership request

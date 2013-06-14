@@ -5,7 +5,7 @@ describe Groups::ManageMembershipRequestsController do
 
   describe "#approve" do
     let(:group) { mock_model Group }
-    let(:membership_request) { mock_model MembershipRequest, group: group }
+    let(:membership_request) { mock_model MembershipRequest, group: group, name: "James Roland" }
     let(:coordinator) { mock_model User }
     let(:requestor) { mock_model User }
 
@@ -35,6 +35,7 @@ describe Groups::ManageMembershipRequestsController do
     context "user has permission to approve membership request" do
       before { controller.stub(:can?).with(:manage_membership_requests, group).and_return(true) }
       context 'request from signed-out user' do
+        before { membership_request.stub(:requestor) }
         it 'marks the request as approved' do
           ManageMembershipRequests.should_receive(:approve!)
           post :approve, id: membership_request.id
@@ -55,12 +56,20 @@ describe Groups::ManageMembershipRequestsController do
         it 'redirects to group with flash message' do
           post :approve, id: membership_request.id
           response.should redirect_to group_path(group)
-          flash[:alert].should == "#{membership_request.name}'s membership request has been approved. They will be added to the group once they set up a Loomio account."
+          flash[:alert].should == "#{membership_request.name}'s membership request has been approved. They have been added to the group."
         end
       end
 
       context "membership request has already been approved" do
-        it "redirects to group with flash message"
+        before do
+          membership_request.stub(:response, 'approved')
+          membership_request.stub(:requestor)
+        end
+        it "redirects to group with flash message" do
+          post :approve, id: membership_request.id
+          response.should redirect_to group_path(group)
+          flash[:warning].should == "This membership request has already been approved."
+        end
       end
       context "membership request has been ignored" do
         it "redirects to group with flash message"
