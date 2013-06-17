@@ -29,11 +29,11 @@ class Ability
     #
 
     can :create, Membership
-    can :cancel_request, Membership, :user => user
+    # can :cancel_request, Membership, :user => user
 
-    can [:approve_request, :ignore_request], Membership do |membership|
-      can? :add_members, membership.group
-    end
+    # can [:approve_request, :ignore_request], Membership do |membership|
+    #   can? :add_members, membership.group
+    # end
 
     can [:make_admin, :remove_admin], Membership,
       :group_id => user.adminable_group_ids
@@ -47,9 +47,14 @@ class Ability
 
     #
     # MEMBERSHIP REQUESTS
-    # #
-    # can :manage_membership_requests, MembershipRequest, 
-    # can :manage_membership_requests, MembershipRequest, 
+    #
+
+    can [:manage_membership_requests, :approve, :ignore], MembershipRequest,
+      :group_id => user.group_ids, :group => {:members_invitable_by => :members}
+
+    can [:manage_membership_requests, :approve, :ignore], MembershipRequest,
+      :group_id => user.adminable_group_ids, :group => {:members_invitable_by => :admins}
+
     #
     # DISCUSSIONS / COMMENTS
     #

@@ -17,11 +17,7 @@ Loomio::Application.routes.draw do
 
   resources :groups, except: [:index, :new] do
     resources :invitations, only: [:index, :destroy, :new, :create], controller: 'groups/invitations'
-
     resources :membership_requests, only: [:new, :create], controller: 'groups/membership_requests'
-    # resources :membership_requests, only: [:index], controller: 'groups/manage_membership_requests', as: :membership_requests
-    # get 'membership_requests', to: 'groups/manage_membership_requests#index'
-
     resources :memberships, only: [:index, :destroy, :new, :create], controller: 'groups/memberships' do
       member do
        post :make_admin
@@ -44,10 +40,14 @@ Loomio::Application.routes.draw do
     post :edit_privacy, on: :member
     delete :leave_group, on: :member
   end
-  match 'groups/:group_id/membership_requests', to: 'groups/manage_membership_requests#index', as: :group_membership_requests, via: :get
-  resources :manage_membership_requests, only: [], controller: 'groups/manage_membership_requests' do
-    post :approve
-    post :ignore
+  match 'groups/:group_id/membership_requests',               to: 'groups/manage_membership_requests#index',   as: :group_membership_requests, via: :get
+  # match 'membership_requests/:id/approve', to: 'groups/manage_membership_requests#approve', as: :approve_membership_request, via: :post
+
+  resources :membership_requests, only: [], controller: 'groups/manage_membership_requests' do
+    member do
+      post :approve
+      post :ignore
+    end
   end
 
   match "/groups/archive/:id", :to => "groups#archive", :as => :archive_group, :via => :post

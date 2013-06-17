@@ -15,7 +15,7 @@ Feature: Individual requests group membership
   # @javascript
   Scenario: Signed-in individual requests membership (Open group)
     Given I am logged in
-    And an open group exists
+    And an open group exisst
     When I visit the group page
     And I click "Request membership"
     And fill in and submit the Request membership form (introduction only)
@@ -23,16 +23,20 @@ Feature: Individual requests group membership
 
 
   # @javascript
-  Scenario: Group coordinator approves membership request from signed-out user
+  Scenario: A member with permission approves membership request from signed-out user
     Given there is a membership request from a signed-out user
     And I am a logged in coordinator of the group
     When I approve the membership request
     Then I should see a flash message confirming the membership request was approved
     And the requester should be sent an invitation to join the group
 
-  Scenario: Group coordinator approves membership request from signed-in user
+  Scenario: A member with permission approves membership request from signed-in user
     Given there is a membership request from a signed-in user
     And I am a logged in coordinator of the group
     When I approve the membership request
     Then I should see a flash message confirming the membership request was approved
     And the requester should be added to the group
+
+  Scenario: A member with permission tries to approve a request which has already been responded totT
+
+  Scenariot: A user without permission tries to visit the membership request index of the group

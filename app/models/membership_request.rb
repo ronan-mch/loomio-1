@@ -15,8 +15,9 @@ class MembershipRequest < ActiveRecord::Base
   belongs_to :requestor, class_name: 'User'
   belongs_to :responder, class_name: 'User'
 
-  delegate :members,             to: :group, prefix: true
-  delegate :membership_requests, to: :group, prefix: true
+  delegate :members,              to: :group, prefix: true
+  delegate :membership_requests,  to: :group, prefix: true
+  delegate :members_invitable_by, to: :group, prefix: true
 
   def name
     if requestor.present?
@@ -38,6 +39,7 @@ class MembershipRequest < ActiveRecord::Base
     self.response = 'approved'
     self.responder = responder
     self.responded_at = Time.now
+    self.save
   end
 
   private
