@@ -39,20 +39,24 @@ class MembershipRequest < ActiveRecord::Base
     self.response = 'approved'
     self.responder = responder
     self.responded_at = Time.now
-    self.save
+    save!
   end
 
   private
 
   def not_in_group_already
-    if group_members.find_by_email(email)
-      errors.add(:email, 'this address belongs to someone already in this group.') #needs_translation see simple_form yaml?
+    unless persisted?
+      if group_members.find_by_email(email)
+        errors.add(:email, 'this address belongs to someone already in this group.') #needs_translation see simple_form yaml?
+      end
     end
   end
 
   def unique_membership_request
-    if group_membership_requests.find_by_email(email)
-      errors.add(:email, 'you have already requested membership') #needs_translation
+    unless persisted?
+      if group_membership_requests.find_by_email(email)
+        errors.add(:email, 'you have already requested membership') #needs_translation
+      end
     end
   end
 end

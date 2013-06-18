@@ -49,3 +49,39 @@ end
 Then(/^the requester should be added to the group$/) do
   @group.members.include?(@membership_request.requestor)
 end
+
+Then(/^I should no longer see the membership request in the list$/) do
+  find('#membership-request-list').should_not have_content @membership_request.name
+end
+
+Given(/^there is an approved membership request from a signed-in user$/) do
+  step 'there is a membership request from a signed-out user'
+  @membership_request.response = 'approved'
+  @membership_request.save!
+end
+
+When(/^I visit the membership requests page for the group$/) do
+  visit group_membership_requests_path(@group)
+end
+
+When(/^I try to visit the membership requests page for the group$/) do
+  step 'I visit the membership requests page for the group'
+end
+
+Then(/^I should not see the membership request in the list$/) do
+  step 'I should no longer see the membership request in the list'
+end
+
+Then(/^I should be returned to the group page$/) do
+  page.should have_css('body.groups.show')
+end
+
+Given(/^membership requests can only be managed by group admins for the group$/) do
+  @group.members_invitable_by = 'admins'
+  @group.save
+end
+
+Given(/^I am a member of the group$/) do
+  @user ||= FactoryGirl.create :user
+  @group.add_member!(@user)
+end

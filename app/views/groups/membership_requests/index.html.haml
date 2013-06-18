@@ -2,7 +2,7 @@
 %h3 Membership requests
 %br
 -if can? :add_members, @group
-  %table.table
+  %table.table#membership-request-list
     %tr
       %th #{t(:name)} & #{t(:email)}
       %th Introduction
