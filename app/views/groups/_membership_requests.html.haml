@@ -1,8 +1,11 @@
 - if group.membership_requests.present? && (can? :add_members, group)
 
   .sub-panel#user-requests
-    -membership_request_announce = "#{t(:membership_requests)} (#{group.membership_requests.count})"
-    = link_to membership_request_announce, group_membership_requests_path(group), class: 'btn btn-grey btn-app'
+    %h4="Membership requests" #needs_translation
+    = link_to pending_membership_requests_count(group), group_membership_requests_path(group), class: 'bottom-panel-link', id: 'pending-count'
+    
+    / -membership_request_announce = "#{t(:membership_requests)} (#{group.membership_requests.count})"
+    / = link_to membership_request_announce, group_membership_requests_path(group), class: 'bottom-panel-link'
 
   / .sub-panel#membership-requests
   /   %h4= t :membership_requests

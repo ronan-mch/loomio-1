@@ -3,7 +3,8 @@ class Groups::ManageMembershipRequestsController < GroupBaseController
   before_filter :load_group_and_check_for_response, only: [:approve, :ignore]
 
   def index
-    @group = Group.find(params[:group_id])
+    @group = GroupDecorator.new Group.find(params[:group_id])
+    # @group = Group.find(params[:group_id])
     if can? :manage_membership_requests, @group
       render 'groups/membership_requests/index'
     else

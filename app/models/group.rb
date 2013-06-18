@@ -37,6 +37,11 @@ class Group < ActiveRecord::Base
     # :class_name => 'Membership',
     :dependent => :destroy
 
+  has_many :pending_membership_requests,
+           class_name: 'MembershipRequest',
+           conditions: {response: nil},
+           dependent: :destroy
+
   has_many :admin_memberships,
     :conditions => {:access_level => 'admin'},
     :class_name => 'Membership',
@@ -50,6 +55,7 @@ class Group < ActiveRecord::Base
   has_many :pending_invitations,
            class_name: 'Invitation',
            conditions: {accepted_at: nil, cancelled_at: nil}
+
 
   alias :users :members
 
