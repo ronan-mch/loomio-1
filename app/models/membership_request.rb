@@ -36,13 +36,21 @@ class MembershipRequest < ActiveRecord::Base
   end
 
   def approved_by!(responder)
-    self.response = 'approved'
+    set_response_details('approved')
+  end
+
+  def ignored_by!(responder)
+    set_response_details('ignored')
+  end
+
+  private
+
+  def set_response_details(response)
+    self.response = response
     self.responder = responder
     self.responded_at = Time.now
     save!
   end
-
-  private
 
   def not_in_group_already
     unless persisted?

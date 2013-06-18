@@ -18,6 +18,10 @@ Then(/^I should see a flash message confirming the membership request was approv
   find('.alert-success').should have_content('membership request has been approved')
 end
 
+Then(/^I should see a flash message confirming the membership request was ignored$/) do
+  find('.alert-success').should have_content('membership request has been ignored')
+end
+
 Given(/^there is a membership request from a signed\-out user$/) do
   @membership_request = FactoryGirl.create :membership_request
   @group = @membership_request.group
@@ -37,6 +41,12 @@ end
 When(/^I approve the membership request$/) do
   visit group_membership_requests_path(@group)
   click_on "approve-membership-request-#{@membership_request.id}"
+  # click_on "confirm-action"
+end
+
+When(/^I ignore the membership request$/) do
+  visit group_membership_requests_path(@group)
+  click_on "ignore-membership-request-#{@membership_request.id}"
   # click_on "confirm-action"
 end
 

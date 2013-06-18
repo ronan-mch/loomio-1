@@ -1,6 +1,6 @@
 class Groups::ManageMembershipRequestsController < GroupBaseController
-  load_and_authorize_resource :membership_request, :only => :approve, parent: false
-  before_filter :load_group_and_check_for_response, only: :approve
+  load_and_authorize_resource :membership_request, only: [:approve, :ignore], parent: false
+  before_filter :load_group_and_check_for_response, only: [:approve, :ignore]
 
   def index
     @group = Group.find(params[:group_id])
@@ -18,6 +18,9 @@ class Groups::ManageMembershipRequestsController < GroupBaseController
   end
 
   def ignore
+    ManageMembershipRequests.ignore!(@membership_request, ignored_by: current_user)
+    flash[:success] = "#{@membership_request.name}'s membership request has been ignored."
+    redirect_to group_membership_requests_path(@group)
   end
 
   private

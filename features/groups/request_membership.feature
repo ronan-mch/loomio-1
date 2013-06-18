@@ -3,6 +3,8 @@ Feature: Individual requests group membership
   So that I can participate in discussions I'm interested in
   I want to be able to join groups
 
+## Request Membership
+
   # @javascript
   Scenario: Signed-out individual requests membership (Open group)
     Given I am not logged in
@@ -21,6 +23,7 @@ Feature: Individual requests group membership
     And fill in and submit the Request membership form (introduction only)
     Then I should see a flash message confirming my membership request
 
+## Approve
 
   # @javascript
   Scenario: A member with permission approves membership request from signed-out user
@@ -58,3 +61,13 @@ Feature: Individual requests group membership
     And I am logged in
     When I try to visit the membership requests page for the group
     Then I should be returned to the group page
+
+
+  ## Ignore
+
+  Scenario: A member with permission ignores a membership request
+    Given there is a membership request from a signed-in user
+    And I am a logged in coordinator of the group
+    When I ignore the membership request
+    Then I should see a flash message confirming the membership request was ignored
+    And I should no longer see the membership request in the list

@@ -17,4 +17,9 @@ class ManageMembershipRequests
       Events::UserAddedToGroup.publish!(membership)
     end
   end
+
+  def self.ignore!(membership_request, options={})
+    responder = options[:ignored_by]
+    membership_request.ignored_by!(responder)
+  end
 end
