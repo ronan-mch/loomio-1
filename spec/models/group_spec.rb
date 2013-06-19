@@ -128,6 +128,7 @@ describe Group do
     before :each do
       @group = create(:group)
       @subgroup = create(:group, :parent => @group)
+      @group.reload
     end
     it "cannot have a max_size" do
       @subgroup.max_size = 5
@@ -150,13 +151,13 @@ describe Group do
     end
     context "subgroup.full_name" do
       it "contains parent name" do
-        @subgroup.full_name.should == "#{@subgroup.parent_name} - #{@subgroup.name}"
-        @subgroup.full_name(": ").should ==
-          "#{@subgroup.parent_name}: #{@subgroup.name}"
+        @subgroup.full_name.should == "#{@group.name} - #{@subgroup.name}"
       end
-      it "can have an optionally defined separator between names" do
-        @subgroup.full_name(": ").should ==
-          "#{@subgroup.parent_name}: #{@subgroup.name}"
+      it "updates if parent_name changes" do
+        @group.name = "bluebird"
+        @group.save!
+        @subgroup.reload
+        @subgroup.full_name.should == "#{@group.name} - #{@subgroup.name}"
       end
     end
   end
@@ -252,23 +253,22 @@ describe Group do
     end
   end
 
-  describe "#has_member_with_email?(email)" do
-    it "returns true if the group has a member with the given email address" do
-      group.add_member!(user)
-      group.has_member_with_email?(user.email).should == true
-    end
-    it "returns false if the group doesn't have a member with the given email address" do
-      group.has_member_with_email?(user.email).should == false
-    end
-  end
+  describe 'archive!' do
+    let(:group) {FactoryGirl.create(:group)}
+    let(:user) {FactoryGirl.create(:user)}
 
-  describe "#has_membership_request_with_email?(email)" do
-    it "returns true if the group has a membership request with the given email address" do
-      create(:membership_request, email: user.email, group: group)
-      group.has_membership_request_with_email?(user.email).should == true
+    before do
+      group.add_member!(user)
+      group.archive!
     end
-    it "returns false if the group doesn't have a membership request with the given email address" do
-      group.has_membership_request_with_email?(user.email).should == false
+
+    it 'sets archived_at on the group' do
+      group.archived_at.should be_present
+
+    end
+
+    it 'archives the memberships of the group' do
+      group.memberships.all?{|m| m.archived_at.should be_present}
     end
   end
 end
