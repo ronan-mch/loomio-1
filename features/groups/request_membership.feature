@@ -23,6 +23,16 @@ Feature: Individual requests group membership
     And fill in and submit the Request membership form (introduction only)
     Then I should see a flash message confirming my membership request
 
+## Cancel
+
+  Scenario: A signed-in individual who has requested membership cancels their request
+    Given I am a Loomio user and have requested membership for a group
+    And I am logged in
+    When I visit the group page
+    And I click "Membership requested"
+    Then I should no longer see the Membership requested button
+    And I should see the request membership button
+
 ## Approve
 
   # @javascript
@@ -71,3 +81,4 @@ Feature: Individual requests group membership
     When I ignore the membership request
     Then I should see a flash message confirming the membership request was ignored
     And I should no longer see the membership request in the list
+

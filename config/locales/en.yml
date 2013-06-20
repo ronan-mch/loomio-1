@@ -193,7 +193,7 @@ en:
   confirm_approve_membership_request: "Are you sure you want to add %{which_user} to the group?"
   ignore_request: "Ignore request"
   confirm_ignore_membership_request: "Are you sure you want to ignore the member request from %{which_user}?"
-  membership_requested: "Membership Requested"
+  membership_requested: "Membership requested"
   request_membership: "Request membership"
   confirm_remove_membership_request: "Are you sure you wish to withdraw your membership request for this group?"
 

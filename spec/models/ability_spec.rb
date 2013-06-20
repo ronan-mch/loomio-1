@@ -156,6 +156,8 @@ describe "User abilities" do
                            group: group, title: "new discussion") }
     let(:another_user_comment) { discussion.add_comment(discussion.author, "hello", false) }
     let(:membership_request) { create(:membership_request, group: group) }
+    let(:my_membership_request) { create(:membership_request, group: group, requestor: user) }
+    let(:other_membership_request) { create(:membership_request, group: group, requestor: other_user) }
 
     it { should_not be_able_to(:update, group) }
     it { should_not be_able_to(:email_members, group) }
@@ -180,6 +182,8 @@ describe "User abilities" do
     it { should_not be_able_to(:open, motion) }
     it { should_not be_able_to(:update, motion) }
     it { should_not be_able_to(:destroy, motion) }
+    it { should be_able_to(:cancel, my_membership_request) }
+    it { should_not be_able_to(:cancel, other_membership_request) }
 
     context "group viewable_by: everyone" do
       before { group.update_attributes(:viewable_by => :everyone) }

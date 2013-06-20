@@ -95,3 +95,17 @@ Given(/^I am a member of the group$/) do
   @user ||= FactoryGirl.create :user
   @group.add_member!(@user)
 end
+
+Given(/^I am a Loomio user and have requested membership for a group$/) do
+  step 'there is a membership request from a signed-in user'
+  @user = @membership_request.requestor
+end
+
+Then(/^I should no longer see the Membership requested button$/) do
+  page.should_not have_css('#membership-requested')
+end
+
+Then(/^I should see the request membership button$/) do
+  page.should have_css('#request-membership')
+end
+

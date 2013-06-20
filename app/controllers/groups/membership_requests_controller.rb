@@ -1,6 +1,6 @@
 class Groups::MembershipRequestsController < BaseController
-  before_filter :load_group
-  before_filter :authenticate_user!, except: [:new, :create]
+  before_filter :load_group, except: :destroy
+  load_and_authorize_resource :membership_request, only: :cancel, parent: false
 
   def new
     @membership_request = MembershipRequest.new(group: @group)
@@ -16,6 +16,12 @@ class Groups::MembershipRequestsController < BaseController
     else
       render 'new'
     end
+  end
+
+  def cancel
+    @membership_request.destroy
+    flash[:success]="Membership request cancelled" #needs_translation
+    redirect_to @membership_request.group
   end
 
   private

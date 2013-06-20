@@ -13,7 +13,7 @@ describe Groups::MembershipRequestsController do
   describe "#create" do
     let(:group) { mock_model(Group) }
     let(:membership_request) { stub_model(MembershipRequest) }
-    let(:membership_request_args) {{name: 'bob james', email: 'bob@james.com', introduction: 'about me, hi'}}
+    # let(:membership_request_args) {{name: 'bob james', email: 'bob@james.com', introduction: 'about me, hi'}}
     before do
       Group.stub(find: group)
       MembershipRequest.stub(new: membership_request)
@@ -85,6 +85,37 @@ describe Groups::MembershipRequestsController do
     #       flash[:alert].should =~ /appear to already be a member/i
     #     end
     #   end
+    end
+  end
+
+  describe '#cancel', :focus do
+    let(:requestor) { create(:user) }
+    let(:group) { mock_model Group }
+    let(:membership_request) { mock_model MembershipRequest, group: group, requestor_id: requestor.id }
+
+    before do
+      MembershipRequest.stub(:find).with(membership_request.id.to_s).and_return(membership_request)
+      Group.stub(:find).and_return(group)
+      membership_request.stub(:destroy)
+      controller.stub(:current_user).and_return requestor
+      sign_in requestor
+    end
+
+    context "a user has permission to cancel membership request" do
+      before { controller.stub(:authorize!).with(:cancel, membership_request).and_return(true) }
+      it "destroys the membership request" do
+        membership_request.should_receive(:destroy)
+        post :cancel, id: membership_request.id
+      end
+      it "redirects them to group page with success flash"
+    end
+    context "a user doesn't have permission to cancel membership request" do
+      before { membership_request.stub(:requestor_id).and_return(requestor.id+1) }
+      it "doesn't destroy the membership request" do
+        membership_request.should_not_receive(:destroy)
+        post :cancel, id: membership_request.id
+      end
+      it "redirect user to group page with error flash"
     end
   end
 end

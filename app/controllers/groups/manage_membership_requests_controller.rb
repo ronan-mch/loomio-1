@@ -4,7 +4,6 @@ class Groups::ManageMembershipRequestsController < GroupBaseController
 
   def index
     @group = GroupDecorator.new Group.find(params[:group_id])
-    # @group = Group.find(params[:group_id])
     if can? :manage_membership_requests, @group
       render 'groups/membership_requests/index'
     else
@@ -37,15 +36,6 @@ class Groups::ManageMembershipRequestsController < GroupBaseController
       end
       redirect_to group_membership_requests_path(@group)
     end
-  end
-
-  # def load_membership_request_and_group
-  #   @membership_request = MembershipRequest.find(params[:membership_request_id])
-  #   @group = @membership_request.group
-  # end
-
-  def require_user_has_permission
-    authorize! :manage_membership_requests, @group
   end
 
   def set_request_approved_flash_message

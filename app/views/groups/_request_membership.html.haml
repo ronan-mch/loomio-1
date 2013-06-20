@@ -1,10 +1,10 @@
 - unless can? :add_members, group
   -if current_user.nil?
     = link_to t(:request_membership), new_group_membership_request_path(group), class: 'btn request-membership-btn', id: 'request-membership'
-  -elsif not group.users_include?(current_user)
+  -elsif not group.users_include?(current_user) #should this querry be happening here? #help #refactor
     - membership_request = group.membership_requests.find_by_requestor_id(current_user)
     - if membership_request.present?
-      = link_to t(:membership_requested), '#', method: :delete, confirm: t(:confirm_remove_membership_request), class: "btn", id: "membership-requested"
+      = link_to t(:membership_requested), delete_membership_request_path(membership_request), method: :delete, confirm: t(:confirm_remove_membership_request), class: "btn", id: "membership-requested"
     - else
       - if group.parent.nil? || current_user.group_membership(group.parent)
         = link_to t(:request_membership), new_group_membership_request_path(group), class: 'btn request-membership-btn', id: 'request-membership'

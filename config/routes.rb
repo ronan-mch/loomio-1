@@ -42,9 +42,9 @@ Loomio::Application.routes.draw do
     post :edit_privacy, on: :member
     delete :leave_group, on: :member
   end
-  match 'groups/:group_id/membership_requests',               to: 'groups/manage_membership_requests#index',   as: :group_membership_requests, via: :get
-  # match 'membership_requests/:id/approve', to: 'groups/manage_membership_requests#approve', as: :approve_membership_request, via: :post
+  match 'membership_requests/:id/cancel', to: 'groups/membership_requests#cancel', as: :delete_membership_request, via: :delete
 
+  match 'groups/:group_id/membership_requests', to: 'groups/manage_membership_requests#index', as: :group_membership_requests, via: :get
   resources :membership_requests, only: [], controller: 'groups/manage_membership_requests' do
     member do
       post :approve

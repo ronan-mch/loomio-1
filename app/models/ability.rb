@@ -49,6 +49,8 @@ class Ability
     # MEMBERSHIP REQUESTS
     #
 
+    can :cancel, MembershipRequest, :requestor_id => user.id
+
     can [:manage_membership_requests, :approve, :ignore], MembershipRequest,
       :group_id => user.group_ids, :group => {:members_invitable_by => :members}
 
