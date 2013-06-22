@@ -111,6 +111,7 @@ en:
     header: "Notifications"
     new_discussion: "started a new discussion"
     new_motion: "created a new proposal"
+    motion_edited: "made the edit '%{edit_message}' in the proposal"
     motion_closed:
       by_user: "closed the proposal"
       by_expiry: "Proposal has closed"

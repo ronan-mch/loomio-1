@@ -14,7 +14,7 @@ class MotionMailer < BaseMailer
     @editor = editor
     @motion = motion
     @group = motion.group
-    set_email_locale(User.find_by_email(email).language_preference, motion.author.language_preference)
+    set_email_locale(User.find_by_email(email).language_preference, editor.language_preference)
     mail  to: email,
           subject: "#{email_subject_prefix(@group.full_name)} " + t("email.proposal_edited.subject", which: @motion.name)
   end

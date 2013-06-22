@@ -254,10 +254,13 @@ table.jqplot-table-legend {
 .new_proposal, .motions.edit {
   .motion-closing-inputs {
     width: 472px;
-    .control-group { display: inline-block; }
+    .control-group {
+      display: inline-block;
+      margin-bottom: 0
+    }
     .motion-close-at-time, .motion-close-at-time-zone {
       display: inline-block;
-      margin-top: 10px;
+      margin: 0;
     }
     .motion-close-at-date { width: 130px; }
     .motion-close-at-time { width: 90px; }

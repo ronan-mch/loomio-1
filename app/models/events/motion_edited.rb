@@ -13,9 +13,9 @@ class Events::MotionEdited < Event
   private
 
   def notify_users!
-    MotionMailer.motion_edited(motion, motion.author.email, user).deliver
     motion.users_voted.each do |voted_user|
       unless voted_user == user
+        MotionMailer.motion_edited(motion, voted_user.email, user).deliver
         notify!(voted_user)
       end
     end

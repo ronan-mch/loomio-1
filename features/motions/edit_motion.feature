@@ -9,14 +9,11 @@ Feature: Admin/author edits a proposal
     And the discussion has an open proposal
     When I visit the discussion page
     And I click the edit proposal button
-    Then I should see the edit proposal form
-    When I change the description
-    And I fill in the change description
+    And I change the description
+    And I fill in the edit message
     And I click the update button
-    Then I should see see the discussion page
-    And I should see the updated description
+    Then I should see the updated description
     And I should see the motion revision link
-    # And members who have not voted should be notified
     And I should see a record of the change in the activity list
 
   Scenario: Author edits a proposal
@@ -42,6 +39,24 @@ Feature: Admin/author edits a proposal
     When I visit the discussion page
     Then I should not see a link to edit the proposal
 
+  Scenario: Members who have voted get emailed when a proposal is edited
+    Given I am logged in
+    And I am an admin of a group with a discussion
+    And the discussion has an open proposal
+    And "Ben" is a member of the group
+    And "Ben" has voted on the proposal
+    And "Hannah" is a member of the group
+    And no emails have been sent
+    When I visit the discussion page
+    And I click the edit proposal button
+    And I change the description
+    And I fill in the edit message
+    And I click the update button
+    And "ben@example.org" should receive an email
+    When "ben@example.org" opens the email
+    And clicking the link in the email should take him to the motion
+    And "hannah@example.org" should receive no email
+
   Scenario: User views revision history
     Given there is a discussion in a public group
     And the discussion has an open proposal
@@ -57,5 +72,3 @@ Feature: Admin/author edits a proposal
   And the discussion has an open proposal
   When I visit the discussion page
   Then I should not see the revision link
-
-

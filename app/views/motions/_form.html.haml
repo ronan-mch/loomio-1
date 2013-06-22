@@ -3,8 +3,8 @@
     = simple_form_for @motion, validate: true do |f|
       %p= t "motion_form.name_helper"
       = f.input :name
-      = render 'motions/close_at_inputs', form: f, user: @current_user
       = f.input :description
+      = render 'motions/close_at_inputs', form: f, user: @current_user
       = f.input :discussion_id, as: :hidden
       - if params[:action] == 'edit'
         #notify-members

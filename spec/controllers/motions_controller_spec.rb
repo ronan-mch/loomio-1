@@ -71,7 +71,7 @@ describe MotionsController do
         Events::MotionEdited.stub(:publish!)
       end
 
-      it "creates a new motion_edited event" do
+      it "publishes a new motion_edited event" do
         motion.stub(:update_attributes).and_return(true)
         Events::MotionEdited.should_receive(:publish!).with(motion, user)
         put :update, id: motion.id, motion: @motion_args
