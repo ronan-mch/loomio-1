@@ -286,6 +286,8 @@ en:
   current_version: "Current version"
   revision_history: "See revision history"
   revision_edit_info: "Edited %{version_created_at} ago, by"
+  notify_unvoted_members: "Notify people of this change"
+  edit_message: "Please explain the changes you have made, this will be included in the email to the %{unvoted_count} members that have already stated their position on this proposal."
   change_proposal_close_date_header: "Change the close date for the proposal '%{which}'"
   proposal: Proposal
   proposal_closing_when: "Closing in %{when}"

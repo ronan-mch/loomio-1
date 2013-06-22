@@ -11,10 +11,13 @@ Feature: Admin/author edits a proposal
     And I click the edit proposal button
     Then I should see the edit proposal form
     When I change the description
+    And I fill in the change description
     And I click the update button
     Then I should see see the discussion page
     And I should see the updated description
     And I should see the motion revision link
+    And members who have not voted should be notified
+    And I should see a record of the change in the activity list
 
   Scenario: Author edits a proposal
     Given I am logged in

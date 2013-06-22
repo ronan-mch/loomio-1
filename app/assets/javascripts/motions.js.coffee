@@ -8,6 +8,13 @@ $ ->
 
 ### EVENTS ###
 
+$ -> #hide/show message to notify users of edit
+  $("#notify_unvoted_members").click (event) ->
+    if $(this).attr('checked') == 'checked'
+      $("#motion-edit-message").show()
+    else
+      $("#motion-edit-message").hide()
+
 $ -> # Disable links on usernames
   $('.activity-item-actor a, .member-name a').click (event) ->
     event.preventDefault()

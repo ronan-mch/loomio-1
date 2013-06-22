@@ -254,11 +254,6 @@ table.jqplot-table-legend {
 .new_proposal, .motions.edit {
   .motion-closing-inputs {
     width: 472px;
-    #alternate {
-      background-color: #fff;
-      border: none;
-      box-shadow: none;
-    }
     .control-group { display: inline-block; }
     .motion-close-at-time, .motion-close-at-time-zone {
       display: inline-block;
@@ -268,4 +263,15 @@ table.jqplot-table-legend {
     .motion-close-at-time { width: 90px; }
     .motion-close-at-time-zone { width: 238px; }
   }
+  #motion_description { height: 140px; }
+  #motion_edit_message {
+    height: 40px;
+    margin-top: 6px;
+  }
+  #notify-members {
+    margin-bottom: 6px;
+    label { display: inline-block; }
+  }
+  #notify_unvoted_members { margin-top: 0; }
+
 }

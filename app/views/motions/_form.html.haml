@@ -6,5 +6,11 @@
       = render 'motions/close_at_inputs', form: f, user: @current_user
       = f.input :description
       = f.input :discussion_id, as: :hidden
+      - if params[:action] == 'edit'
+        #notify-members
+          = check_box_tag :notify_unvoted_members, true, true
+          = label_tag :notify_unvoted_members, t('notify_unvoted_members')
+        #motion-edit-message
+          = f.input :edit_message, label: t('edit_message', unvoted_count: 'FILL THIS IN')
       = f.submit submit_btn_text, :class => "btn btn-large btn-info run-validations", id: "proposal-submit", :data => {:disable_with => disable_btn_text}
       = render 'application/hint', text: t(:"hint.proposal"), anchor: 'writing-a-clear-proposal'
