@@ -65,27 +65,29 @@ describe MotionsController do
 
     context "updating a motion" do
       before do
-        @discussion = create :discussion
-        @motion = create :motion, discussion: @discussion
-        @motion_args = { id: @motion.id,
-                         :motion => { :name => "Putty",
-                                      :description => "makes things sticky"}}
-        Motion.stub(:find).with(@motion.id.to_s).and_return(@motion)
+        @motion_args = { name: "Putty",
+                         description: "makes things sticky" }
+        controller.stub(:authorize!).with(:update, motion).and_return(true)
+        Events::MotionEdited.stub(:publish!)
       end
-      it 'save the motion updating the attributes' do
-        @motion.should_receive(:update_attributes).and_return(true)
-        put :update, @motion_args
+
+      it "creates a new motion_edited event" do
+        motion.stub(:update_attributes).and_return(true)
+        Events::MotionEdited.should_receive(:publish!).with(motion, user)
+        put :update, id: motion.id, motion: @motion_args
       end
+
       it 'should redirect to the discussion' do
-        @motion.stub(:update_attributes).and_return(true)
-        put :update, @motion_args
-        response.should redirect_to(discussion_url(@discussion))
+        motion.stub(:update_attributes).and_return(true)
+        put :update, id: motion.id, motion: @motion_args
+        response.should redirect_to(discussion_url(discussion))
       end
+
       context 'update is unsucessfull' do
         it 'should redirect back to the edit motion form' do
-          @motion.stub(:update_attributes).and_return(false)
-          put :update, @motion_args
-          response.should redirect_to edit_motion_url(@motion)
+          motion.stub(:update_attributes).and_return(false)
+          put :update, id: motion.id, motion: @motion_args
+          response.should redirect_to edit_motion_url(motion)
         end
       end
     end

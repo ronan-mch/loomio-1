@@ -57,7 +57,7 @@ class MotionsController < GroupBaseController
 
   def update
     if @motion.update_attributes(params[:motion])
-      Event.new
+      Events::MotionEdited.publish!(@motion, current_user)
       redirect_to discussion_url(@motion.discussion)
     else
       redirect_to edit_motion_url(@motion)

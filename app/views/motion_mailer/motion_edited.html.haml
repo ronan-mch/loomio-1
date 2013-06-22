@@ -1,0 +1,5 @@
+= render '/application/mailer_doctype'
+%html
+  %p= t("email.proposal_edited.intro", who: @editor.name, proposal_name: @motion.name)
+  %p=t("email.proposal_edited.change", edit_message: @motion.edit_message)
+  %p= link_to(t("email.view_proposal"), discussion_url(@motion.discussion, proposal: @motion))

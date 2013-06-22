@@ -232,7 +232,7 @@ en:
     motion_closed:
       by_user: "closed the proposal"
       by_expiry: "Proposal closed"
-    motion_close_date_edited: "changed the closing date for the proposal"
+    motion_edited: "edited the proposal"
     discussion_title_edited: "changed the discussion title"
     discussion_description_edited: "changed the discussion description"
 
@@ -632,6 +632,10 @@ en:
       intro: "You were mentioned in a discussion titled:"
       said: "%{comment_author} said:"
       subject: "%{who} mentioned you in the %{which} group on Loomio"
+    proposal_edited:
+      intro: '%{who} has edited the proposal "%{proposal_name}".'
+      change: "Discription of change: %{edit_message}"
+      subject: "Proposal edited - %{which}"
     proposal_closed:
       intro: 'Your proposal "%{proposal_name}" has closed.'
       specify_outcome: "Please click here to specify an outcome"

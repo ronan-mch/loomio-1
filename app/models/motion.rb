@@ -32,8 +32,8 @@ class Motion < ActiveRecord::Base
 
   attr_accessor :create_discussion
 
-  attr_accessible :name, :description, :discussion_url, :discussion_id
-  attr_accessible :close_at_date, :close_at_time, :close_at_time_zone, :phase,  :outcome
+  attr_accessible :name, :description, :discussion_url, :discussion_id, :edit_message
+  attr_accessible :close_at_date, :close_at_time, :close_at_time_zone, :phase, :outcome
 
   include AASM
   aasm :column => :phase do
@@ -93,6 +93,10 @@ class Motion < ActiveRecord::Base
 
   def user_has_voted?(user)
     votes.for_user(user).exists?
+  end
+
+  def users_voted
+    group.users.joins(:votes).uniq
   end
 
   def can_be_voted_on_by?(user)

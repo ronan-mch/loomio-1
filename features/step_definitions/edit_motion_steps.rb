@@ -45,7 +45,7 @@ Then(/^members who have not voted should be notified$/) do
 end
 
 Then(/^I should see a record of the change in the activity list$/) do
-  pending # express the regexp above with the code you wish you had
+  find('ul#activity-list').should have_content('change of address')
 end
 
 When(/^I click the motion revision link$/) do
