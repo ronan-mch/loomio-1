@@ -21,12 +21,12 @@ When(/^I click the update button$/) do
   click_on I18n.t('motion_form.submit_update')
 end
 
-When(/^I fill in the edit message$/) do
-  fill_in 'motion_edit_message', with: 'change of address'
-end
-
 When(/^I click the motion revision link$/) do
   click_on 'motion-revision-link'
+end
+
+When(/^I fill in the edit message$/) do
+  fill_in 'motion_edit_message', with: 'change of address'
 end
 
 When(/^clicking the link in the email should take him to the motion$/) do
@@ -40,10 +40,6 @@ end
 
 Then /^I should see the edit proposal form$/ do
   page.should have_css("body.motions.edit")
-end
-
-Then(/^I should see see the discussion page$/) do
-  page.should have_css('body.discussions.show')
 end
 
 Then(/^I should see the updated description$/) do

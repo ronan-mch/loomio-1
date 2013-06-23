@@ -13,7 +13,7 @@ class NotificationItems::MotionEdited < NotificationItem
 
   def action_text
     I18n.t('notifications.motion_edited',
-      edit_message:@notification.eventable.version_at(@notification.event.created_at).edit_message)
+      edit_message: @notification.eventable.version_at(@notification.event.created_at).edit_message)
   end
 
   def title

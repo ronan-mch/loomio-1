@@ -68,7 +68,7 @@ Feature: Admin/author edits a proposal
     # And I should see the new version
 
   Scenario: User tries to view revision history when their is not one
-  Given there is a discussion in a public group
-  And the discussion has an open proposal
-  When I visit the discussion page
-  Then I should not see the revision link
+    Given there is a discussion in a public group
+    And the discussion has an open proposal
+    When I visit the discussion page
+    Then I should not see the revision link
